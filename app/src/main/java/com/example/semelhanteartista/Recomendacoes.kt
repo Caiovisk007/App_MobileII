@@ -1,5 +1,6 @@
 package com.example.semelhanteartista
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,65 +16,37 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class Recomendacoes : AppCompatActivity() {
-
+    private lateinit var recyclerView_artistas: RecyclerView;
+    private var listaBandas: MutableList<Indicacao> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recomendacoes)
-
-        val recyclerView_artistas = findViewById<RecyclerView>(R.id.recyclerView_artistas)
+        recyclerView_artistas = findViewById<RecyclerView>(R.id.recyclerView_artistas)
         recyclerView_artistas.layoutManager = LinearLayoutManager(this)
         recyclerView_artistas.setHasFixedSize(true)
-
-        val listaBandas: MutableList<Indicacao> = mutableListOf()
         val adapterBanda = AdapterBanda(this,listaBandas)
         recyclerView_artistas.adapter = adapterBanda
-
-        val indicacao1 = Indicacao(
-            " "
-        )
-        listaBandas.add(indicacao1)
-
-        val indicacao2 = Indicacao(
-            " "
-        )
-        listaBandas.add(indicacao2)
-
-        val indicacao3 = Indicacao(
-            " "
-        )
-        listaBandas.add(indicacao3)
-
-        val indicacao4 = Indicacao(
-            " "
-        )
-        listaBandas.add(indicacao4)
-
-        val indicacao5 = Indicacao(
-            " "
-        )
-        listaBandas.add(indicacao5)
     }
 
     override fun onResume() {
         super.onResume()
-        getSuggestions()
+        /*AQUI VAI O NOME DA BANDA SELECIONADA*/
+        getSuggestions("nirvana")
     }
 
-    private fun getSuggestions() {
+    private fun getSuggestions(banda: String) {
         try {
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://tastedive.com/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-
             val artist: Artist = retrofit.create(Artist::class.java)
-            val call = artist.getPosts("nirvana")
 
-            Log.e("API", "URL: ${call.request().url.toString()}")
+            val call = artist.getPosts(banda)
             call.enqueue(object : Callback<ResponseApiSimilar> {
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(call: Call<ResponseApiSimilar>, response: Response<ResponseApiSimilar>) {
                     if (!response.isSuccessful) {
-                        Log.e("API", "API: ${response.raw()}")
                         Toast.makeText(
                             applicationContext,
                             "Error " + response.code() + ": " + response.message(),
@@ -81,13 +54,15 @@ class Recomendacoes : AppCompatActivity() {
                         ).show()
                         return
                     }
-                    val response = response.body()
-                    Log.e("API", "RESULTS: ${response?.similar?.results}")
-                    val postsArtist = response?.similar?.results ?: return
-                    for (postArtist in postsArtist) {
-                        Log.e("API", "NOME: ${postArtist?.getName().toString()}")
+                    val bodyResponse = response.body() ?: return
+                    val postsArtist = bodyResponse.similar?.results ?: return
 
+                    listaBandas.clear()
+                    for (postArtist in postsArtist) {
+                        val indicacao = Indicacao(postArtist?.getName().toString())
+                        listaBandas.add(indicacao)
                     }
+                    recyclerView_artistas.adapter?.notifyDataSetChanged();
                 }
 
                 override fun onFailure(call: Call<ResponseApiSimilar>, t: Throwable) {
