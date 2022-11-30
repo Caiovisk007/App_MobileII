@@ -4,18 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.SearchView
-
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
-
-    lateinit var ledzeppelin_click: TextView
-    lateinit var pinkfloyd_click: TextView
-    lateinit var ironmaiden_click: TextView
-    lateinit var beatles_click: TextView
-    lateinit var twisted_click: TextView
-    lateinit var redhot_click: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
