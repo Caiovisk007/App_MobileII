@@ -30,25 +30,10 @@ class Recomendacoes : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val dados = intent.extras
-
-        var ledzeppelin = dados?.getString("led")
-        ledzeppelin?.let { getSuggestions(it) }
-
-        var pinkfloyd = dados?.getString("pink")
-        pinkfloyd?.let { getSuggestions(it) }
-
-        var ironmaiden = dados?.getString("iron")
-        ironmaiden?.let { getSuggestions(it) }
-
-        var beatles = dados?.getString("beatles")
-        beatles?.let { getSuggestions(it) }
-
-        var twistedsister = dados?.getString("twisted")
-        twistedsister?.let { getSuggestions(it) }
-
-        var redhot = dados?.getString("redhot")
-        redhot?.let { getSuggestions(it) }
+        val dados = intent.getStringExtra("banda")
+        dados?.let {
+            getSuggestions(dados)
+        }
     }
 
     private fun getSuggestions(banda: String) {
