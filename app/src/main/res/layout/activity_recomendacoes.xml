@@ -11,7 +11,7 @@
         android:id="@+id/titulo"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:text="Recomendações alternativas para sua banda escolhida:"
+        android:text="Recomendações alternativas para seu artista escolhido:"
         android:textColor="@color/white"
         android:textSize="25dp"
         android:gravity="center"

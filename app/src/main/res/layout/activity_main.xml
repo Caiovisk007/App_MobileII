@@ -12,22 +12,36 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="25dp">
+        android:layout_marginTop="200dp">
 
         <TextView
             android:id="@+id/titulo_main"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:text="Selecione um dos artistas abaixo e o número de recomendações semelhantes"
+            android:text="Digite um artista abaixo e obtenha recomendações de artistas semelhantes"
             android:textColor="@color/white"
             android:textSize="25dp"
+            android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal"
             android:gravity="center" />
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchmain"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_margin="15dp"
+            android:background="@color/white"/>
+
+        <TextView
+            android:id="@+id/dica"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="Verifique se o nome do artista foi informado corretamente"
+            android:textColor="@color/white"
+            android:textSize="25dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center" />
 
     </LinearLayout>
 
